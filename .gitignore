@@ -6,6 +6,11 @@ __pycache__/
 # C extensions
 *.so
 
+
+#dashfinelog ignore
+
+migrations/
+
 # Distribution / packaging
 .Python
 build/
