@@ -3,10 +3,12 @@
 <html lang="pt-br">
 <head>
     {% include "global/partials/_head.html" %}
-    
+    {% block head %}{% endblock head %}
 </head>
 <body data-bs-theme="dark">
-  <nav class="reference navbar navbar-dark bg-dark fixed-top">
+
+  <header>
+  <nav class="navbar navbar-dark bg-dark fixed-top reference">
   <div class="container-fluid">
     <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -19,7 +21,7 @@
       <div class="offcanvas-body">
         <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Home</a>
+            <a class="nav-link" aria-current="page" id="resumepage" href="#">Resume</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">Link</a>
@@ -46,14 +48,16 @@
     </div>
   </div>
 </nav>
+</header>
 <div class="espacamento"></div>
   
-  <main>
+  <main class="bg-dark">
       {% block content %}{% endblock content %}
   </main>
 
-  <script src="{% static 'global/js/bootstrap.bundle.min.js' %}"></script>
-  <script src="{% static 'global/js/scripts.js' %}"></script>
+  <script src="{% static 'global/js/bootstrap.bundle.min.js' %}" defer></script>
+  <script src="{% static 'global/js/scripts.js' %}" defer></script>
+  {% block scripts %}{% endblock scripts %}
 </body>
 </html>
 
