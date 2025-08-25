@@ -5,189 +5,330 @@ resume.classList.add("active");
 
 // GRAFICOS
 
+// função async para obter os dados de data e preço do dolar
+// para o gráfico dolarview
+async function get_data_week_coin(url, days = 6) {
+    try {
+        const response = await fetch(url + days);
+        if (!response.ok) throw new Error("Erro ao obter os dados do backend" + response.status);
+
+        const data = await response.json();
+
+        return Object.values(data);
+    } catch (error) {
+        return null;
+    }
+}
+
+// obtendo o gráfico dolarview
 const DOLAR = document.getElementById("dolarview").getContext("2d");
 
-const myChart = new Chart(DOLAR, {
-    type: "line",
-    data: {
-        labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
-        datasets: [
-            {
-                label: "Vendas",
-                data: [10, 12, 15, 13, 17, 20], 
-                borderColor: "#4e9aff", 
-                backgroundColor: "rgba(78, 154, 255, 0.2)", 
-                fill: true,
-                tension: 0.4, 
-                pointBackgroundColor: "#4e9aff", 
-                pointRadius: 5,
-            },
-        ],
-    },
-    options: {
-        responsive: true,
-        plugins: {
-            legend: {
-                display: false, 
-            },
-        },
-        scales: {
-            x: {
-                grid: {
-                    display: false, 
-                },
-                ticks: {
-                    color: "white", 
-                },
-            },
-            y: {
-                grid: {
-                    color: "rgba(255, 255, 255, 0.1)", 
-                },
-                ticks: {
-                    color: "white",
-                },
-            },
-        },
-    },
-});
+let dolarChart = null; // gráfico dolarview
 
-// ______________________________________________________________________________________________________________________________________________________
+// função async para inicializar o gráfico
+async function initChart_DolarView() {
+    let [dolar_prices, labels_var] = await get_data_week_coin(
+        "http://127.0.0.1:8000/api/get/dolar/days/"
+    ); // Obtendo dados do backend
 
-const SELIC = document.getElementById("taxaselicview");
+    // verificando se a api esta ativa
+    if (labels_var == null) labels_var = ["seg", "ter", "qua", "qui", "sex", "sab"];
+    if (dolar_prices == null) dolar_prices = [0, 0, 0, 0, 0, 0];
 
-new Chart(SELIC, {
-    type: "bar",
-    data: {
-        labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
-        datasets: [
-            {
-                label: "Série 1",
-                data: [150, 250, 280, 300, 350, 370],
-                backgroundColor: "#4285F4", 
-                borderRadius: 8,
-            },
-            {
-                label: "Série 2",
-                data: [140, 160, 200, 210, 250, 260],
-                backgroundColor: "#FB8C00", 
-                borderRadius: 8,
-            },
-        ],
-    },
-    options: {
-        responsive: true,
-        maintainAspectRatio: false, 
-        plugins: {
-            legend: {
-                display: false, 
-            },
-        },
-        scales: {
-            x: {
-                grid: {
-                    display: false,
-                },
-                ticks: {
-                    color: "#fff",
-                },
-            },
-            y: {
-                beginAtZero: true,
-                ticks: {
-                    color: "#fff",
-                },
-                grid: {
-                    color: "rgba(255,255,255,0.2)", 
-                },
-            },
-        },
-    },
-});
+    // revertendo os arrays
+    dolar_prices.reverse();
+    labels_var.reverse();
 
-// ______________________________________________________________________________________________________________________________________________________
-
-const BITCOIN = document.getElementById("bitcoinview");
-
-new Chart(BITCOIN, {
-    type: "line",
-    data: {
-        labels: ["Jan", "Feb", "Mar", "Jun"], 
-        datasets: [
-            {
-                label: "Balance Over Time",
-                data: [6000, 8000, 8500, 10000, 11000], 
-                borderColor: "#4e9cff",
-                backgroundColor: "rgba(78, 154, 255, 0.2)",
-                fill: true,
-                tension: 0.4, 
-                pointRadius: 5,
-                pointBackgroundColor: "#4e9cff",
-            },
-        ],
-    },
-    options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-            legend: {
-                display: false, 
-            },
-            title: {
-                display: true,
-                text: "Balance Over Time",
-                color: "#fff",
-                font: {
-                    size: 18,
-                },
-            },
-        },
-        scales: {
-            x: {
-                ticks: { color: "#fff" },
-                grid: { color: "rgba(255,255,255,0.1)" },
-            },
-            y: {
-                ticks: { color: "#fff" },
-                grid: { color: "rgba(255,255,255,0.1)" },
-                beginAtZero: true,
-            },
-        },
-    },
-});
-
-const ctx = document.getElementById("budgetChart").getContext("2d");
-new Chart(ctx, {
-    type: "pie",
-    data: {
-        labels: ["Rent", "Groceries", "Entertainment", "Utilities"],
-        datasets: [
-            {
-                data: [25, 15, 30, 30], 
-                backgroundColor: [
-                    "rgba(54, 162, 235, 0.8)", 
-                    "rgba(255, 159, 64, 0.8)", 
-                    "rgba(75, 192, 192, 0.8)", 
-                    "rgba(54, 162, 235, 0.5)", 
+    // Criando o gráfico
+    if (!dolarChart) {
+        dolarChart = new Chart(DOLAR, {
+            type: "line",
+            data: {
+                labels: labels_var,
+                datasets: [
+                    {
+                        label: "Vendas",
+                        data: dolar_prices,
+                        borderColor: "#4e9aff",
+                        backgroundColor: "rgba(78, 154, 255, 0.2)",
+                        fill: true,
+                        tension: 0.4,
+                        pointBackgroundColor: "#4e9aff",
+                        pointRadius: 5,
+                    },
                 ],
-                borderColor: ["rgba(255, 255, 255, 0)"],
-                borderWidth: 1,
             },
-        ],
-    },
-    options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-            legend: {
-                position: "right",
-                labels: {
-                    color: "white", 
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: false },
+                },
+                scales: {
+                    x: { grid: { display: false }, ticks: { color: "white" } },
+                    y: { grid: { color: "rgba(255, 255, 255, 0.1)" }, ticks: { color: "white" } },
                 },
             },
-        },
-    },
-});
+        });
+    }
+    // se o grafico ja existir, ele apenas o atualizara,
+    // sem precisar ser criado novamente
+    else {
+        dolarChart.data.labels = labels_var; // Definindo as labels
+        dolarChart.data.datasets[0].data = dolar_prices; // Definindo os dados
+        dolarChart.update(); // Atualizando o gráfico
+    }
+}
+
+// ______________________________________________________________________________________________________________________________________________________
+
+// função async para obter os dados de data e preço do bitcoin
+// para o gráfico bitcoinview
+
+const BITCOIN = document.getElementById("bitcoinview").getContext("2d");
+let bitcoinChart = null; // gráfico bitcoinview
+
+async function initChart_BitcoinView() {
+    let [bitcoin_prices, days_week] = await get_data_week_coin(
+        "http://127.0.0.1:8000/api/get/bitcoin/days/",
+        5
+    ); // Obtendo dados do backend
+
+    // verificando se a api esta ativa
+    if (days_week == null) days_week = ["seg", "ter", "qua", "qui"];
+    if (bitcoin_prices == null) bitcoin_prices = [0, 0, 0, 0, 0];
+
+    // revertendo os arrays
+    bitcoin_prices.reverse();
+    days_week.reverse();
+
+    // Criando o gráfico
+    if (!bitcoinChart) {
+        bitcoinChart = new Chart(BITCOIN, {
+            type: "line",
+            data: {
+                labels: days_week,
+                datasets: [
+                    {
+                        label: "Balance Over Time",
+                        data: bitcoin_prices,
+                        borderColor: "#4e9cff",
+                        backgroundColor: "rgba(78, 154, 255, 0.2)",
+                        fill: true,
+                        tension: 0.4,
+                        pointRadius: 5,
+                        pointBackgroundColor: "#4e9cff",
+                    },
+                ],
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: false,
+                    },
+                    title: {
+                        display: true,
+                        text: "Balance Over Time",
+                        color: "#fff",
+                        font: {
+                            size: 18,
+                        },
+                    },
+                },
+                scales: {
+                    x: {
+                        ticks: { color: "#fff" },
+                        grid: { color: "rgba(255,255,255,0.1)" },
+                    },
+                    y: {
+                        ticks: { color: "#fff" },
+                        grid: { color: "rgba(255,255,255,0.1)" },
+                        beginAtZero: false,
+                    },
+                },
+            },
+        });
+    }
+    // se o grafico ja existir, ele apenas o atualizara,
+    // sem precisar ser criado novamente
+    else {
+        bitcoinChart.data.labels = days_week; // Definindo as labels
+        bitcoinChart.data.datasets[0].data = bitcoin_prices; // Definindo os dados
+        bitcoinChart.update(); // Atualizando o gráfico
+    }
+}
+
+// ______________________________________________________________________________________________________________________________________________________
+
+const INFLACAO = document.getElementById("inflacaoview").getContext("2d");
+
+// Inicializando grafico inflacao
+let inflacaoChart = null;
+
+// Criando o gráfico
+async function initChart_InflacaoView() {
+    let [ipcac_avarage, months] = await get_data_week_coin(
+        "http://127.0.0.1:8000/api/get/ipca/months/",
+        6
+    ); // Obtendo dados do backend
+
+    let [inpc_avarage] = await get_data_week_coin("http://127.0.0.1:8000/api/get/inpc/months/", 6);
+
+    // verificando se a api esta ativa
+    if (ipcac_avarage == null) ipcac_avarage = [0, 0, 0, 0, 0, 0];
+    if (inpc_avarage == null) inpc_avarage = [0, 0, 0, 0, 0, 0];
+    if (months == null) months = ["abr", "mai", "jun", "jul", "ago", "set"];
+
+    // revertendo os arrays
+    ipcac_avarage.reverse();
+    inpc_avarage.reverse();
+    months.reverse();
+
+    // Criando o gráfico
+    if (!inflacaoChart) {
+        inflacaoChart = new Chart(INFLACAO, {
+            type: "bar",
+            data: {
+                labels: months,
+                datasets: [
+                    {
+                        label: "IPCA",
+                        data: ipcac_avarage,
+                        backgroundColor: "#4285F4",
+                        borderRadius: 8,
+                    },
+                    {
+                        label: "IPNC",
+                        data: inpc_avarage,
+                        backgroundColor: "#FB8C00",
+                        borderRadius: 8,
+                    },
+                ],
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false,
+                    },
+                },
+                scales: {
+                    x: {
+                        grid: {
+                            display: false,
+                        },
+                        ticks: {
+                            color: "#fff",
+                        },
+                    },
+                    y: {
+                        ticks: {
+                            color: "#fff",
+                        },
+                        grid: {
+                            color: "rgba(255,255,255,0.2)",
+                        },
+                    },
+                },
+            },
+        });
+    }
+    // se o grafico ja existir, ele apenas o atualizara,
+    // sem precisar ser criado novamente
+    else {
+        inflacaoChart.data.labels = months; // Definindo as labels
+        inflacaoChart.data.datasets[0].data = ipcac_avarage; // Definindo os dados
+        inflacaoChart.update(); // Atualizando o gráfico
+    }
+}
+
+// ______________________________________________________________________________________________________________________________________________________
+
+const selicview = document.getElementById("selicview").getContext("2d");
+let selicChart = null; // variavel para armazenar o grafico
+
+async function initChart_PibView() {
+    let [selic_prices, months] = await get_data_week_coin(
+        "http://127.0.0.1:8000/api/get/selic/months/",
+        4
+    ); // Obtendo dados do backend
+
+    // verificando se a api esta ativa
+    if (selic_prices == null) selic_prices = [0, 0, 0, 0];
+    if (months == null) months = ["abr", "mai", "jun", "jul"];
+
+    // revertendo os arrays
+    months.reverse();
+
+    // Criando o gráfico
+    if (!selicChart) {
+        selicChart = new Chart(selicview, {
+            type: "bar",
+            data: {
+                labels: months,
+                datasets: [
+                    {
+                        data: selic_prices,
+                        backgroundColor: [
+                            "rgba(54, 163, 235, 1)",
+                            "rgba(255, 141, 27, 1)",
+                            "rgba(75, 192, 192, 1)",
+                            "rgba(54, 163, 235, 1)",
+                        ],
+                        borderColor: ["rgba(255, 255, 255, 0)"],
+                        borderWidth: 1,
+                        borderRadius: 8,
+                    },
+                ],
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false,
+                        labels: {
+                            color: "white",
+                        },
+                    },
+                },
+                scales: {
+                    x: {
+                        grid: {
+                            display: false,
+                        },
+                        ticks: {
+                            color: "#fff",
+                        },
+                    },
+                    y: {
+                        ticks: {
+                            color: "#fff",
+                        },
+                        grid: {
+                            color: "rgba(255,255,255,0.2)",
+                        },
+                    },
+                },
+            },
+        });
+    }
+    // se o grafico ja existir, ele apenas o atualizara,
+    // sem precisar ser criado novamente
+    else {
+        selicChart.data.labels = ["Rent", "Groceries", "Entertainment", "Utilities"]; // Definindo as labels
+        selicChart.data.datasets[0].data = [25, 15, 30, 30]; // Definindo os dados
+        selicChart.update(); // Atualizando o gráfico
+    }
+}
+
+// Inicializando os gráficos
+
+initChart_InflacaoView();
+initChart_PibView();
+initChart_BitcoinView();
+initChart_DolarView();
 
 // adjusts
 
@@ -205,3 +346,12 @@ const maxHeight = Math.max(graficOne.offsetHeight, graficTwo.offsetHeight);
 // Aplica a altura máxima aos dois
 graficOne.style.height = maxHeight + "px";
 graficTwo.style.height = maxHeight + "px";
+
+// Sessão para atualizar graficos
+
+const intervalo = 1000 * 60 * 5; // 5 minutos
+
+setInterval(initChart_DolarView, intervalo);
+setInterval(initChart_BitcoinView, intervalo);
+setInterval(initChart_InflacaoView, intervalo);
+setInterval(initChart_PibView, intervalo);

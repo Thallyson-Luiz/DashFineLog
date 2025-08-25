@@ -4,8 +4,8 @@ const espacamento = document.querySelector('.espacamento');
 const larg = reference.offsetWidth;
 const altura = reference.offsetHeight;
 
-espacamento.style.width = larg + 'px !important';
-espacamento.style.height = altura + 'px !important';
+espacamento.style.width = larg + 'px';
+espacamento.style.height = altura + 'px';
 
 window.addEventListener('resize', () => {
     const larg = reference.offsetWidth;

@@ -20,18 +20,14 @@ section .navbar {
 }
 
 .card {
-    border: none;
+    border: 1px solid rgba(255, 255, 255, 0.05);
     box-shadow: 0 0 15px rgba(85, 106, 128, 0.1);
 }
 
-.controler-selic {
-    min-width: 100%;
-    height: 50%;
-}
 
-#taxaselicview {
+#inflacaoview {
     min-width: 100%;
-    height: auto;
+    height: 15vh;
     max-height: 70%;
 }
 
@@ -46,4 +42,16 @@ section .navbar {
 
 .gap_just {
     gap: 1rem;
+}
+
+@media (max-width: 300px) {
+    .finelog-title{
+        margin-inline: auto !important;
+    }
+    .btn-person {
+        margin-inline: auto !important;
+    }
+    .grafic_two{
+        max-height: max-content !important;
+    }
 }

@@ -8,70 +8,88 @@
 <section class="bg-dark container-fluid m-auto">
     <div class="row">
         <nav class="navbar navbar-expand-lg navbar-dark px-3 mt-4 w-100">
-            <a class="navbar-brand fw-bold finelog-title" href="#">DASHFINELOG</a>
+            <a class=" col text-center navbar-brand align-items-center justify-content-center finelog-title" href="#">DASHFINELOG</a>
           
-            <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+            <div class=" col collapse navbar-collapse justify-content-center" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
                         <a class="nav-link" href="#">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="#">Dashboard</a>
+                        <a class="nav-link active" href="#">Resume</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Transactions</a>
                     </li>
                 </ul>
             </div>
-            <div class="d-flex align-items-center ms-auto">
+            <div class="col d-flex align-items-center justify-content-center ms-auto btn-person">
                 <a class="btn btn-outline-light btn-sm rounded-circle btn-logo">👤</a>
             </div>
         </nav>
 
         <div class="row m-0 mt-4">
+            {% if pib %}
             <div class="col-12 col-md-4 p-3">
                 <div class="card mb-5">
                     <div class="card-body">
-                        <h5 class="card-title">Total Balance</h5>
-                        <h2 class="card-text">$12,345</h2>
-                        <span class="text-success">↑ 2.4% </span><small> Since last month</small>
+                        <h5 class="card-title text-capitalize">crescimento do Pib</h5>
+                        <h2 class="card-text">{{pib}}</h2>
+                        {% if variation_pib >= 0 %}
+                        <span class="text-success">↑ {{variation_pib}}% </span><small> Since {{date_pib}}</small>
+                        {% else %}
+                        <span class="text-danger">↓ {{variation_pib}}% </span><small> Since {{date_pib}}</small>
+                        {% endif %}
                     </div>
                 </div>
+                {% endif %}
+                {% if dolar_today %}
                 <div class="card mb-5">
                     <div class="card-body">
-                        <h5 class="card-title">Income</h5>
-                        <h2 class="card-text">$8,560</h2>
-                        <span class="text-success">↑ 2.4% </span><small> Since last month</small>
+                        <h5 class="card-title">Dolar</h5>
+                        <h2 class="card-text">R$ {{dolar_today}}</h2>
+                        {% if dolar_variation >= 0 %}
+                        <span class="text-success">↑ {{dolar_variation}}% </span><small> Since last day</small>
+                        {% else %}
+                        <span class="text-danger">↓ {{dolar_variation}}% </span><small> Since last day</small>
+                        {% endif %}
                     </div>
                 </div>
                 <div class="card">
                     <canvas id="dolarview" class="card-img"></canvas>
                 </div>
+                {% endif %}
             </div>
 
             <div class="col-12 col-md-8 p-3">
-                <div class="card mb-4 grafic-selic d-flex align-items-center justify-content-center">
+                <div class="card mb-4 d-flex align-items-center justify-content-center">
                     <div class="card-body w-100">
-                        <h5 class="card-title text-center">Taxa Selic</h5>
-                            <canvas class="card-img" id="taxaselicview"></canvas>
+                        <h5 class="card-title text-center">Inflação</h5>
+                            <canvas class="card-img" id="inflacaoview"></canvas>
                     </div>
                 </div>
 
                 <div class="row g-4">
+                    {% if bitcoin_today %}
                     <div class="card col-12 col-md-5 p-2 grafic_one mx-auto">
                         <div class="card-body">
-                            <h5 class="card-title">Bitcoins</h5>
-                            <h2 class="card-text">$8,560</h2>
-                            <span class="text-success">↑ 2.4% </span><small> Since last month</small>
+                            <h5 class="card-title">Bitcoin</h5>
+                            <h2 class="card-text">R$ {{bitcoin_today}}</h2>
+                            {% if bitcoin_variation >= 0 %}
+                            <span class="text-success">↑ {{bitcoin_variation}}% </span><small> Since last day</small>
+                            {% else %}
+                            <span class="text-danger">↓ {{bitcoin_variation}}% </span><small> Since last day</small>
+                            {% endif %}
                         </div>
                         <div class="card-body">
                             <canvas class="card-img" id="bitcoinview"></canvas>
                         </div>
                     </div>
+                    {% endif %}
                     <div class="card col-12 col-md-5 p-3 grafic_two mx-auto">
-                        <h5 class="card-title">Transactions</h5>
-                        <div class="h-50 w-100">
-                            <canvas id="budgetChart"></canvas>
+                        <h5 class="card-title text-capitalize">taxa selic</h5>
+                        <div class="h-50 w-100 m-auto">
+                            <canvas id="selicview"></canvas>
                         </div>
                     </div>
                 </div>
