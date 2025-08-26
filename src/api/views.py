@@ -1,5 +1,5 @@
 from modules.dolar import get_dolar_with_days
-from modules.bitcoin import get_bitcoin_with_days
+from modules.cripto import get_bitcoin_with_days
 from modules.inflation import get_ipca_last_months, get_inpc_last_months
 from modules.selic import get_selic_last_months
 from utils.convert import convert_float

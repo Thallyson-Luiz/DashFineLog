@@ -2,10 +2,11 @@ from django.shortcuts import render
 from modules.dolar import get_dolar_today
 from utils.convert import convert_float
 from modules.dolar import calc_coin_variation
-from modules.bitcoin import get_bitcoin_today
+from modules.cripto import get_bitcoin_today
 from utils.formate import formatar_numero
 from modules.pib import get_pib_last_months
 from utils.calc_variation import calc_variation_percent
+from django.http import HttpRequest
 
 # Create your views here.
 
@@ -29,7 +30,7 @@ def index(request):
     # calcula a variação percentual
     DOLAR_PERCENTAGE = calc_coin_variation(price_dolar, dolar_price_add)
 
-# ____________________________________________________________________________________________________________________________________
+    # ____________________________________________________________________________________________________________________________________
 
     # pega a cotação do bitcoin e converte para float
     BITCOIN_API = get_bitcoin_today() # requisição do awesomeapi
@@ -44,6 +45,8 @@ def index(request):
 
     # calcula a variação percentual
     BITCOIN_PERCENTAGE = calc_coin_variation(PRICE_BITCOIN_BEFORE, bitcoin_price_add)
+
+    # ____________________________________________________________________________________________________________________________________
 
     pib_old, pib_new = get_pib_last_months(2) # requisição do gov.br
     DATE_PIB = pib_new['data'] # pega a data do pib
@@ -64,4 +67,10 @@ def index(request):
     }
 
     return render(request, 'home/pages/resume.html', context)
+
+def cripto(request: HttpRequest):
+    return render(request, 'home/pages/cripto.html')
+
+
+
 
