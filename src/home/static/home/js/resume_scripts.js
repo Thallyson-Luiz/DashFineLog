@@ -3,8 +3,6 @@
 const resume = document.getElementById("resumepage");
 resume.classList.add("active");
 
-// GRAFICOS
-
 // função async para obter os dados de data e preço do dolar
 // para o gráfico dolarview
 async function get_data_week_coin(url, days = 6) {
@@ -26,10 +24,8 @@ const DOLAR = document.getElementById("dolarview").getContext("2d");
 let dolarChart = null; // gráfico dolarview
 
 // função async para inicializar o gráfico
-async function initChart_DolarView() {
-    let [dolar_prices, labels_var] = await get_data_week_coin(
-        "http://127.0.0.1:8000/api/get/dolar/days/"
-    ); // Obtendo dados do backend
+async function initChart_DolarView(requestDolarApi) {
+    let [dolar_prices, labels_var] = requestDolarApi; // Obtendo dados do backend
 
     // verificando se a api esta ativa
     if (labels_var == null) labels_var = ["seg", "ter", "qua", "qui", "sex", "sab"];
@@ -87,11 +83,8 @@ async function initChart_DolarView() {
 const BITCOIN = document.getElementById("bitcoinview").getContext("2d");
 let bitcoinChart = null; // gráfico bitcoinview
 
-async function initChart_BitcoinView() {
-    let [bitcoin_prices, days_week] = await get_data_week_coin(
-        "http://127.0.0.1:8000/api/get/bitcoin/days/",
-        5
-    ); // Obtendo dados do backend
+async function initChart_BitcoinView(requestBitcoinApi) {
+    let [bitcoin_prices, days_week] = requestBitcoinApi; // Obtendo dados do backend
 
     // verificando se a api esta ativa
     if (days_week == null) days_week = ["seg", "ter", "qua", "qui"];
@@ -166,21 +159,18 @@ const INFLACAO = document.getElementById("inflacaoview").getContext("2d");
 let inflacaoChart = null;
 
 // Criando o gráfico
-async function initChart_InflacaoView() {
-    let [ipcac_avarage, months] = await get_data_week_coin(
-        "http://127.0.0.1:8000/api/get/ipca/months/",
-        6
-    ); // Obtendo dados do backend
+async function initChart_InflacaoView(requestIpcaApi, requestInpcApi) {
+    let [ipca_avarage, months] = requestIpcaApi; // Obtendo dados backend do ipca
 
-    let [inpc_avarage] = await get_data_week_coin("http://127.0.0.1:8000/api/get/inpc/months/", 6);
+    let [inpc_avarage] = requestInpcApi; // Obtendo dados backend do inpc
 
     // verificando se a api esta ativa
-    if (ipcac_avarage == null) ipcac_avarage = [0, 0, 0, 0, 0, 0];
+    if (ipca_avarage == null) ipca_avarage = [0, 0, 0, 0, 0, 0];
     if (inpc_avarage == null) inpc_avarage = [0, 0, 0, 0, 0, 0];
     if (months == null) months = ["abr", "mai", "jun", "jul", "ago", "set"];
 
     // revertendo os arrays
-    ipcac_avarage.reverse();
+    ipca_avarage.reverse();
     inpc_avarage.reverse();
     months.reverse();
 
@@ -193,7 +183,7 @@ async function initChart_InflacaoView() {
                 datasets: [
                     {
                         label: "IPCA",
-                        data: ipcac_avarage,
+                        data: ipca_avarage,
                         backgroundColor: "#4285F4",
                         borderRadius: 8,
                     },
@@ -238,7 +228,7 @@ async function initChart_InflacaoView() {
     // sem precisar ser criado novamente
     else {
         inflacaoChart.data.labels = months; // Definindo as labels
-        inflacaoChart.data.datasets[0].data = ipcac_avarage; // Definindo os dados
+        inflacaoChart.data.datasets[0].data = ipca_avarage; // Definindo os dados
         inflacaoChart.update(); // Atualizando o gráfico
     }
 }
@@ -248,11 +238,8 @@ async function initChart_InflacaoView() {
 const selicview = document.getElementById("selicview").getContext("2d");
 let selicChart = null; // variavel para armazenar o grafico
 
-async function initChart_PibView() {
-    let [selic_prices, months] = await get_data_week_coin(
-        "http://127.0.0.1:8000/api/get/selic/months/",
-        4
-    ); // Obtendo dados do backend
+async function initChart_SelicView(requestSelicApi) {
+    let [selic_prices, months] = requestSelicApi; // Obtendo dados do backend
 
     // verificando se a api esta ativa
     if (selic_prices == null) selic_prices = [0, 0, 0, 0];
@@ -325,10 +312,22 @@ async function initChart_PibView() {
 
 // Inicializando os gráficos
 
-initChart_InflacaoView();
-initChart_PibView();
-initChart_BitcoinView();
-initChart_DolarView();
+async function initCharts() {
+    const requestSelicApi = await get_data_week_coin("http://127.0.0.1:8000/api/get/selic/months/", 4);
+    const requestIpcaApi = await get_data_week_coin("http://127.0.0.1:8000/api/get/ipca/months/", 6);
+    const requestInpcApi = await get_data_week_coin("http://127.0.0.1:8000/api/get/inpc/months/", 6);
+    const requestBitcoinApi = await get_data_week_coin("http://127.0.0.1:8000/api/get/bitcoin/days/", 5);
+    const requestDolarApi = await get_data_week_coin("http://127.0.0.1:8000/api/get/dolar/days/");
+
+    // console.log(requestDolarApi);
+
+    initChart_InflacaoView(requestIpcaApi, requestInpcApi);
+    initChart_SelicView(requestSelicApi);
+    initChart_BitcoinView(requestBitcoinApi);
+    initChart_DolarView(requestDolarApi);
+}
+
+initCharts();
 
 // adjusts
 
@@ -354,4 +353,4 @@ const intervalo = 1000 * 60 * 5; // 5 minutos
 setInterval(initChart_DolarView, intervalo);
 setInterval(initChart_BitcoinView, intervalo);
 setInterval(initChart_InflacaoView, intervalo);
-setInterval(initChart_PibView, intervalo);
+setInterval(initChart_SelicView, intervalo);

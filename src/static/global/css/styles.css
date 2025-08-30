@@ -1,86 +1,93 @@
 :root {
-  --ds-button-color: #0c57d0;
-  --ds-button-color-hover: #094bb6;
-  --ds-primari-color: rgba(11,10,17,255);
-  --ds-card-color: rgba(12, 14, 17, 0.911);
-  --ds-background-color: rgba(12, 14, 17, 0.911);
-  
+    --ds-button-color: #0c57d0;
+    --ds-button-color-hover: #094bb6;
+    --ds-button-color-secondary: rgba(255, 255, 255, 0.815);
+    --ds-button-color-secondary-hover: #b3bfca;
+    --ds-primari-color: rgba(11, 10, 17, 255);
+    --ds-card-color: rgba(12, 14, 17, 0.911);
+    --ds-background-color: rgba(12, 14, 17, 0.911);
+}
+
+.espacamento{
+    transition: all 0.5s ease-in-out;
 }
 
 [data-bs-theme="dark"] {
-  --bs-body-bg: var(--ds-primari-color);
+    --bs-body-bg: var(--ds-primari-color);
 }
 
-.offcanvas-start{
+.offcanvas-start {
     background-color: var(--ds-primari-color) !important;
 }
 
+.dropdown-menu-dark {
+    background-color: var(--ds-primari-color) !important;
+}
 .bg-dark {
-  background-color: var(--ds-primari-color) !important;
+    background-color: var(--ds-primari-color) !important;
 }
 
-.btn {
-  background-color: var(--ds-button-color);
-  border: var(--ds-button-color);
+.btn-primary {
+    background-color: var(--ds-button-color);
+    border: var(--ds-button-color);
 }
-.btn:hover {
-  background-color: var(--ds-button-color-hover);
+.btn-primary:hover {
+    background-color: var(--ds-button-color-hover);
 }
 
 html,
 body {
-  height: 100%;
+    height: 100%;
 }
 
 body {
-  display: flex;
-  flex-direction: column;
+    display: flex;
+    flex-direction: column;
 }
 
 main {
-  display: flex;
-  flex: 1;
+    display: flex;
+    flex: 1;
 }
 
 header .navbar-dark {
-  background-color: var(--ds-primari-color) !important;
-  border-bottom: solid 1px rgba(255, 255, 255, 0.08);
-  position: fixed;
+    background-color: var(--ds-primari-color) !important;
+    border-bottom: solid 1px rgba(255, 255, 255, 0.08);
+    position: fixed;
 }
 
-section.bg-dark{
-  background-color: var(--ds-background-color) !important;
+section.bg-dark {
+    background-color: var(--ds-background-color) !important;
 }
 
-.card{
-  background-color: var(--ds-card-color) !important;
+.card {
+    background-color: var(--ds-card-color) !important;
 }
 
-.espacamento{
-    display: inline-block ! important;
+.espacamento {
+    display: inline-block !important;
 }
-
 
 @media (min-width: 700px) {
-  header .navbar-dark {
-    height: 100%;
-    width: max-content;
-    justify-content: start;
-    flex-direction: column;
-    border-bottom: none;
-    border-right: solid 2px rgba(255, 255, 255, 0.08);
-  }
-  body{
-    flex-direction: row;
-  }
+    header .navbar-dark {
+        height: 100%;
+        width: max-content;
+        justify-content: start;
+        flex-direction: column;
+        border-bottom: none;
+        border-right: solid 2px rgba(255, 255, 255, 0.08);
+    }
+    body {
+        flex-direction: row;
+    }
 
-  main {
-    margin-top: 0;
-  }
+    main {
+        margin-top: 0;
+    }
 }
 
 @media (max-width: 700px) {
-  main {
-    margin-top: 2rem;
-  }
+    main {
+        margin-top: 2rem;
+    }
 }

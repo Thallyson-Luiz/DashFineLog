@@ -2,16 +2,14 @@ from django.shortcuts import render
 from modules.dolar import get_dolar_today
 from utils.convert import convert_float
 from modules.dolar import calc_coin_variation
-from modules.cripto import get_bitcoin_today
+from modules.cripto import get_bitcoin_today, config_cripto_today, get_market_humor
 from utils.formate import formatar_numero
 from modules.pib import get_pib_last_months
 from utils.calc_variation import calc_variation_percent
+from .models import CriptoMoeda
 from django.http import HttpRequest
 
-# Create your views here.
-
-
-def index(request):
+def index(request: HttpRequest):
     '''
     Função para renderizar o template de resume
     
@@ -69,7 +67,35 @@ def index(request):
     return render(request, 'home/pages/resume.html', context)
 
 def cripto(request: HttpRequest):
-    return render(request, 'home/pages/cripto.html')
+    '''
+    Função para renderizar o template de cripto
+    trata os dados e envia para o template cripto
+    '''
+
+
+    # obtendo e tratando os dados
+    CRIPTOS = CriptoMoeda.objects.all() # pega todas as criptomoedas
+    CRIPTO_INFO = config_cripto_today(CRIPTOS) # trata os dados
+    MARKET_HUMOR = get_market_humor() # pega o humor do mercado
+
+    # verificando se houve erro
+    if not CRIPTO_INFO:
+        return render(request, 'home/pages/cripto.html', {'criptos': CRIPTO_INFO})
+    
+    if not MARKET_HUMOR:
+        return render(request, 'home/pages/cripto.html', {'criptos': CRIPTO_INFO, 'market_humor': MARKET_HUMOR})
+
+
+    # envia os dados para o template
+    context ={
+        'criptos': CRIPTO_INFO,
+        'market_humor': MARKET_HUMOR
+    }
+
+    return render(request, 'home/pages/cripto.html', context)
+
+def my_coins(request: HttpRequest):
+    return render(request, 'home/pages/my_coins.html')
 
 
 

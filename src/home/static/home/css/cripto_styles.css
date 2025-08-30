@@ -1,48 +1,145 @@
-.img-cript{
+.img-cript {
     width: 10%;
 }
 
-.card{
+.card {
     border: 1px solid rgba(255, 255, 255, 0.05);
     box-shadow: 0 0 15px rgba(85, 106, 128, 0.1);
 }
 
-.card-hover{
+.card-hover {
     transition: all 0.2s ease-in-out;
 }
 
-.card-hover:hover{
+.card-hover:hover {
     transform: scale(1.05);
     cursor: pointer;
 }
 
-.card-hover:hover .card{
+.card-hover:hover .card {
     box-shadow: 0 0 25px rgba(85, 106, 128, 0.14);
 }
 
+.border-start {
+    border-left: 1px solid rgba(255, 255, 255, 0.01) !important;
+}
+
+.button-my-criptos {
+    border: var(--ds-button-color-secondary) solid 1px !important;
+    background-color: transparent !important;
+    color: var(--ds-button-color-secondary) !important;
+    max-width: 25rem !important;
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.button-my-criptos:nth-of-type(1) {
+    border-radius: 0.5rem 0 0 0.5rem !important;
+}
+
+.button-my-criptos:nth-of-type(2) {
+    border-radius: 0 0.5rem 0.5rem 0 !important;
+}
+
+.button-my-criptos:hover {
+    color: var(--ds-background-color) !important;
+}
+
+.button-my-criptos::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 100%;
+    background: linear-gradient(to right, var(--ds-button-color-secondary), var(--ds-button-color-secondary-hover));
+    transition: width 0.4s ease;
+    z-index: -1;
+}
+
+.button-my-criptos:hover::after {
+    width: 100%;
+}
+.double-card-2 {
+    max-height: 100% !important;
+}
+
+.rounded {
+    border-radius: 1rem !important;
+}
+
+.modal-dialog-center {
+    max-height: 100dvh;
+    max-width: 100dvw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content {
+    height: 90%;
+    width: 90%;
+}
+.d-criptoview {
+    width: 100% !important;
+    height: 80% !important;
+}
+
+.modal .modal-footer .modal-btn {
+    border-radius: 0.5rem !important;
+}
+
+p.fs-4 {
+    font-size: calc(0.5rem + 1vw) !important;
+}
 @media (max-width: 1200px) {
-    .img-cript{
+    .img-cript {
         width: 10%;
     }
 }
 
+@media (max-width: 880px) {
+    .double-card {
+        width: 100% !important;
+    }
+    .container-cards-ext {
+        width: 100% !important;
+        padding: 0 !important;
+    }
+    .double-card {
+        padding: 0 !important;
+    }
+}
+
 @media (max-width: 768px) {
-    .img-cript{
+    .img-cript {
         width: 10%;
     }
 }
 
 @media (max-width: 576px) {
-    .img-cript{
+    .img-cript {
         width: 15%;
+    }
+}
+@media (max-width: 500px) {
+    .img-container-mcripto {
+        display: none !important;
+    }
+    .img-cript {
+        margin-bottom: 1rem !important;
+    }
+    p.fs-4 {
+        font-size: calc(0.8rem + 1vw) !important;
     }
 }
 
 @media (max-width: 375px) {
-    .img-cript{
+    .img-cript {
         width: 20%;
     }
-    .ct-coin{
+    .ct-coin {
         border: none !important;
         width: 100% !important;
         margin: 0 !important;
@@ -50,6 +147,17 @@
     }
 }
 
+@media (max-width: 340px) {
+    .card-hover {
+        width: 100% !important;
+    }
 
+    h1 {
+        font-size: calc(1.3rem + 1vw) !important;
+    }
 
-
+    h2 {
+        font-size: calc(1.1rem + 1vw) !important;
+        text-align: center !important;
+    }
+}

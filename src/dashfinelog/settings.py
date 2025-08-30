@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    # apps django
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -42,8 +43,8 @@ INSTALLED_APPS = [
     'rest_framework',
 
     # apps dashfinelog
-    'api',
-    'home',
+    'api.apps.ApiConfig',
+    'home.apps.HomeConfig',
 ]
 
 MIDDLEWARE = [
@@ -132,6 +133,12 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [
     BASE_DIR / 'static',
 ]
+
+# Media files
+MEDIA_URL = 'media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
+
 
 
 # Default primary key field type

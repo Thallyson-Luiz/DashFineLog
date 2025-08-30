@@ -1,0 +1,1 @@
+document.getElementById('coinpage').classList.add('active');

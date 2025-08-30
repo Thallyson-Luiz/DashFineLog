@@ -1,0 +1,7 @@
+.card{
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 0 15px rgba(85, 106, 128, 0.1);
+    background-color: var(--ds-card-color);
+    height: 95%;
+    width: 70%;
+}
