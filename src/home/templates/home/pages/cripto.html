@@ -4,16 +4,16 @@
 {% endblock head %} {% block content %}
 
 <section class="container-fluid d-flex flex-column g-4 col-12">
-    <div class="row g-4 mb-2 mt-2 p-4 pb-0">
+    <div class="row g-4 mb-2 mt-2 p-4 pb-0 slide-in-top">
         <h1 class="text-center fw-bold">Criptomoedas</h1>
     </div>
     <div class="row ct-coin g-4 p-4 py-0 pb-2 m-auto">
-        <h2 class="text-start ps-4 text-capitalize mb-3">Moedas populares</h2>
+        <h2 class="text-start ps-4 text-capitalize mb-3 slide-in-left">Moedas populares</h2>
 
         {% if criptos %} {% for cripto in criptos %}
 
         <div
-            class="col-6 col-md-4 col-xxl-2 mt-0 p-0 pe-md-3 pe-2 py-3 card-hover"
+            class="col-6 col-md-4 col-xxl-2 mt-0 p-0 pe-md-3 pe-2 py-3 card-hover slide-in-scale"
             data-bs-toggle="modal"
             data-bs-target="#cripto-modal"
         >
@@ -29,11 +29,13 @@
                         <p class="fs-4">$ {{cripto.price}}</p>
                         {% if cripto.variation >= 0 %}
                         <p class="text-success m-0">
-                            ↑ {{cripto.variation}}% <small class="text-white">Since last day</small>
+                            ↑ {{cripto.variation}}%
+                            <small class="text-white">Since last day</small>
                         </p>
                         {% else %}
                         <p class="text-danger m-0">
-                            ↓ {{cripto.variation}}% <small class="text-white">Since last day</small>
+                            ↓ {{cripto.variation}}%
+                            <small class="text-white">Since last day</small>
                         </p>
                         {% endif %}
                     </div>
@@ -43,16 +45,15 @@
 
         {% endfor %} {% endif %}
 
-        
         <div class="row mt-4 g-3 mx-auto container-cards-ext ps-0">
-            <div class="w-50 double-card ps-0">
+            <div class="w-50 double-card ps-0 slide-in-left">
                 <div class="card p-4">
                     <div class="card-body">
                         <h2 class="text-center">Minhas moedas</h2>
                         <div class="d-flex gap-4">
                             <div class="col img-container-mcripto">
                                 <img
-                                src="{% static 'home/img/img_mycripto.jpeg' %}"
+                                    src="{% static 'home/img/img_mycripto.jpeg' %}"
                                     alt="my criptos img"
                                     class="img-fluid rounded"
                                 />
@@ -62,8 +63,19 @@
                                     Adicione suas moedas favoritas e acompanhe seus rendimentos diariamente!
                                 </p>
                                 <div class="d-flex align-items-center justify-content-center">
-                                    <button class="btn btn-secondary h-25 w-50 d-block button-my-criptos">Adicionar</button>
-                                    <button class="btn btn-secondary h-25 w-50 d-block button-my-criptos">Ver</button>
+                                    <button
+                                        class="btn btn-secondary h-25 w-50 d-block button-my-criptos"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#add-coin-modal"
+                                    >
+                                        Adicionar
+                                    </button>
+                                    <a
+                                        class="btn btn-secondary h-25 w-50 d-block button-my-criptos"
+                                        href="{% url 'home:my-coins' %}"
+                                    >
+                                        Ver
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -71,7 +83,7 @@
                 </div>
             </div>
 
-            <div class="w-50 double-card double-card-2">
+            <div class="w-50 double-card double-card-2 slide-in-right">
                 <div class="card p-4 h-100">
                     <div class="card-body">
                         <h2 class="text-center">Humor Do Mercado</h2>
@@ -83,34 +95,43 @@
                                     AlternativeMe!
                                 </p>
                                 {% if market_humor %} {% if market_humor.value_classification == 'Neutral' %}
-                                
-                                <p>Estado: <span class="text-warning">{{ market_humor.value_classification }}</span></p>
-                                
+
+                                <p>
+                                    Estado:
+                                    <span class="text-warning">{{ market_humor.value_classification }}</span>
+                                </p>
+
                                 {% elif market_humor.value_classification == 'Greed' %}
-                                
-                                <p>Estado: <span class="text-success">{{ market_humor.value_classification }}</span></p>
-                                
+
+                                <p>
+                                    Estado:
+                                    <span class="text-success">{{ market_humor.value_classification }}</span>
+                                </p>
+
                                 {% elif market_humor.value_classification == 'Fear' %}
-                                
-                                <p>Estado: <span class="text-danger">{{ market_humor.value_classification }}</span></p>
-                                
+
+                                <p>
+                                    Estado:
+                                    <span class="text-danger">{{ market_humor.value_classification }}</span>
+                                </p>
+
                                 {% else %}
                                 <p>Estado: {{ market_humor.value_classification }}</p>
                                 {% endif %}
-                                
+
                                 <p>Pontuação: {{ market_humor.value }}</p>
-                                
+
                                 {% else %}
                                 <p>Estado: None</p>
                                 <p>Pontuação: None</p>
                                 {% endif %}
                             </div>
-                            
+
                             <div class="col img-container-mcripto">
                                 <img
-                                src="{% static 'home/img/img_cripto_market.jpeg' %}"
-                                alt="my criptos img"
-                                class="img-fluid rounded"
+                                    src="{% static 'home/img/img_cripto_market.jpeg' %}"
+                                    alt="my criptos img"
+                                    class="img-fluid rounded"
                                 />
                             </div>
                         </div>
@@ -120,35 +141,44 @@
         </div>
     </div>
 
-
-    <div class="modal fade" id="cripto-modal" tabindex="-1" aria-labelledby="meuModalLabel" aria-hidden="true" role="dialog">
-        <div class="modal-dialog modal-dialog-center modal-dialog-scrollable" role="document" >
+    <div
+        class="modal fade"
+        id="cripto-modal"
+        tabindex="-1"
+        aria-labelledby="modal de Criptomoedas"
+        aria-hidden="true"
+        role="dialog"
+    >
+        <div class="modal-dialog modal-dialog-center modal-dialog-scrollable" role="document">
             <div class="modal-content">
-    
-    
                 <div class="modal-header">
                     <h2 class="modal-title" id="modalLabel"></h2>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
                 </div>
-    
+
                 <div class="modal-body">
                     <div class="row mb-5">
                         <h3 class="mb-2" id="modalprice"></h3>
-                            <p class="" id="modalvariation"></p>
+                        <p class="" id="modalvariation"></p>
                     </div>
                     <div class="row d-criptoview m-auto p-0">
-                    <canvas id="criptoView" class="img-fluid"></canvas>
+                        <canvas id="criptoView" class="img-fluid"></canvas>
                     </div>
                 </div>
-    
-    
+
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary button-my-criptos modal-btn" data-bs-dismiss="modal">Fechar</button>
-                    <button type="button" class="btn btn-secondary button-my-criptos modal-btn">Adicionar as minhas criptos</button>
+                    <button type="button" class="btn btn-secondary button-my-criptos modal-btn" data-bs-dismiss="modal">
+                        Fechar
+                    </button>
+                    <a type="button" class="btn btn-secondary button-my-criptos modal-btn" id="btnAddCoin">
+                        Adicionar as minhas Moedas
+                    </a>
                 </div>
             </div>
         </div>
     </div>
+
+    {% include "home/partials/_modalAddCoin.html" %}
 </section>
 
 {% endblock content %} {% block scripts %}

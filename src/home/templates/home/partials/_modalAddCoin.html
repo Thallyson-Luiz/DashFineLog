@@ -1,0 +1,49 @@
+<div
+    class="modal fade"
+    id="add-coin-modal"
+    tabindex="-1"
+    aria-labelledby="modal para adicionar moedas favoritas"
+    aria-hidden="true"
+    role="dialog"
+>
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+        <div class="modal-content modal-coin-add m-auto">
+            <div class="modal-header d-flex border-0">
+                <h2 class="modal-title" id="modalLabel">Adicionar Criptomoeda</h2>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            </div>
+
+            <div class="modal-body d-flex justify-content-center flex-column align-items-center">
+                <div class="row w-75">
+                    <div class="row pe-0 mb-3 w-100">
+                        <label for="ticker" class="form-label ps-0">Ticker</label>
+                        <input
+                            type="text"
+                            name="ticker"
+                            class="form-control"
+                            placeholder="Digite o ticker da Moeda"
+                            id="ticker"
+                        />
+                    </div>
+
+                    <div class="row pe-0 w-100">
+                        <label for="trading_pair" class="form-label ps-0">Trading Pair</label>
+                        <input
+                            type="text"
+                            name="trading_pair"
+                            class="form-control"
+                            placeholder="Digite o Trading Pair"
+                            id="trading_pair"
+                        />
+                    </div>
+
+                    <div class="row pe-0 w-100">
+                        <a class="btn btn-secondary button-my-criptos btn-modal-coin h-auto w-auto mt-3 ms-auto">
+                            Adicionar
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

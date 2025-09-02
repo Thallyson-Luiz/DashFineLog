@@ -313,18 +313,29 @@ async function initChart_SelicView(requestSelicApi) {
 // Inicializando os gráficos
 
 async function initCharts() {
-    const requestSelicApi = await get_data_week_coin("http://127.0.0.1:8000/api/get/selic/months/", 4);
-    const requestIpcaApi = await get_data_week_coin("http://127.0.0.1:8000/api/get/ipca/months/", 6);
-    const requestInpcApi = await get_data_week_coin("http://127.0.0.1:8000/api/get/inpc/months/", 6);
-    const requestBitcoinApi = await get_data_week_coin("http://127.0.0.1:8000/api/get/bitcoin/days/", 5);
-    const requestDolarApi = await get_data_week_coin("http://127.0.0.1:8000/api/get/dolar/days/");
+    try {
 
-    // console.log(requestDolarApi);
+        // Obtendo os dados do backend
+        const requestSelicApi = await get_data_week_coin("http://127.0.0.1:8000/api/get/selic/months/", 4);
+        const requestIpcaApi = await get_data_week_coin("http://127.0.0.1:8000/api/get/ipca/months/", 6);
+        const requestInpcApi = await get_data_week_coin("http://127.0.0.1:8000/api/get/inpc/months/", 6);
+        const requestBitcoinApi = await get_data_week_coin("http://127.0.0.1:8000/api/get/bitcoin/days/", 5);
+        const requestDolarApi = await get_data_week_coin("http://127.0.0.1:8000/api/get/dolar/days/");
+        
+        // Iniciando os gráficos
+        initChart_InflacaoView(requestIpcaApi, requestInpcApi);
+        initChart_SelicView(requestSelicApi);
+        initChart_BitcoinView(requestBitcoinApi);
+        initChart_DolarView(requestDolarApi);
+    } catch (error) {
+        alert("Ocorreu um erro ao carregar os gráficos. Por favor, tente novamente mais tarde.");
+    }
 
-    initChart_InflacaoView(requestIpcaApi, requestInpcApi);
-    initChart_SelicView(requestSelicApi);
-    initChart_BitcoinView(requestBitcoinApi);
-    initChart_DolarView(requestDolarApi);
+    // mostra a pagina
+    loader.style.display = 'none'; // esconde loader
+    document.querySelector('.finelog-title').classList.add('slide-in-left');
+    document.querySelector('#navbarNav').classList.add('slide-in-top');
+    document.querySelector('.btn-person').classList.add('slide-in-right');
 }
 
 initCharts();

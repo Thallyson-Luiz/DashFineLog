@@ -9,6 +9,7 @@ __pycache__/
 
 #dashfinelog ignore
 migrations/
+media/
 
 # Distribution / packaging
 .Python

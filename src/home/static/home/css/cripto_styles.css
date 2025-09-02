@@ -34,11 +34,11 @@
     overflow: hidden;
 }
 
-.button-my-criptos:nth-of-type(1) {
+.button-my-criptos:nth-child(1) {
     border-radius: 0.5rem 0 0 0.5rem !important;
 }
 
-.button-my-criptos:nth-of-type(2) {
+.button-my-criptos:nth-child(2) {
     border-radius: 0 0.5rem 0.5rem 0 !important;
 }
 
@@ -81,6 +81,15 @@
     height: 90%;
     width: 90%;
 }
+
+.modal .btn-modal-coin{
+    border-radius: 1rem !important;
+}
+
+.modal-coin-add {
+    height: 50% !important;
+    width: 100% !important;
+}
 .d-criptoview {
     width: 100% !important;
     height: 80% !important;
@@ -93,6 +102,7 @@
 p.fs-4 {
     font-size: calc(0.5rem + 1vw) !important;
 }
+
 @media (max-width: 1200px) {
     .img-cript {
         width: 10%;
@@ -159,5 +169,12 @@ p.fs-4 {
     h2 {
         font-size: calc(1.1rem + 1vw) !important;
         text-align: center !important;
+    }
+
+    .button-my-criptos {
+        font-size: calc(0.8rem + 1vw) !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
     }
 }

@@ -5,3 +5,123 @@
     height: 95%;
     width: 70%;
 }
+
+.button-my-criptos {
+    border: var(--ds-button-color-secondary) solid 1px !important;
+    background-color: transparent !important;
+    color: var(--ds-button-color-secondary) !important;
+    max-width: 25rem !important;
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.button-my-criptos:hover {
+    color: var(--ds-background-color) !important;
+}
+
+.button-my-criptos::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 100%;
+    background: linear-gradient(to right, var(--ds-button-color-secondary), var(--ds-button-color-secondary-hover));
+    transition: width 0.4s ease;
+    z-index: -1;
+}
+
+.button-my-criptos:hover::after {
+    width: 100%;
+}
+
+.btn-excluir::after{
+    background: brown !important;
+}
+
+.btn-excluir:hover{
+    border: brown solid 1px !important;
+}
+
+.card-body{
+    overflow-y: scroll;
+}
+
+::-webkit-scrollbar {
+    width: 0px;
+}
+
+.list-group{
+    list-style: none;
+}
+
+.list-group-item{
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+.list-group-item:hover{
+    scale: 1.02;
+}
+
+.modal-dialog-centered {
+    max-height: 80% !important;
+    max-width: 80% !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal .modal-content {
+    height: 90% !important;
+    width: 90% !important;
+}
+.modal .d-coinview {
+    width: 100% !important;
+    height: 80% !important;
+}
+
+.modal .modal-footer .modal-btn {
+    border-radius: 0.5rem !important;
+}
+
+.modal .modal-coin-add{
+    height: 50% !important;
+    width: 50% !important;
+}
+
+@media (max-width: 1200px) {
+    .modal .modal-coin-add{
+        width: 90% !important;
+    }
+}
+
+@media (max-width: 700px) {
+    .card{
+        width: 100% !important;
+    }
+
+}
+
+@media (max-width: 576px) {
+    section {
+        padding: 0.5rem !important;
+    }
+}
+
+@media (max-width: 375px) {
+    .coin-item{
+        flex-direction: column !important;
+        gap: 0.5rem !important;
+        align-items: start !important;
+    }
+}
+@media (max-width: 300px) {
+    .btn-secondary{
+        font-size: calc(0.6rem + 1vw) !important;
+    }
+    .btn {
+        width: max-content !important;
+    }
+}
+

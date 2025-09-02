@@ -106,19 +106,19 @@ async function initChart_criptoView(request) {
 
 // ____________________________________________________________________________________________________________________________________________________
 
-// Modal
-const modal = document.getElementById('cripto-modal');
+// Modal de criptomoedas
+const modalCrypto = document.getElementById('cripto-modal');
 
 // Definindo o conteudo do modal
-modal.addEventListener('show.bs.modal', async (event) => {
+modalCrypto.addEventListener('show.bs.modal', async (event) => {
     const triggerModal = event.relatedTarget; // Elemento que acionou o modal
     
     const coinname = triggerModal.querySelector('h3').textContent; // Nome da moeda
-    modal.querySelector('#modalLabel').textContent = coinname; // Definindo o nome da moeda
+    modalCrypto.querySelector('#modalLabel').textContent = coinname; // Definindo o nome da moeda
     const [coinprice, coinvariation] = triggerModal.querySelectorAll('p'); // Preço e variação da moeda
-    modal.querySelector('#modalprice').textContent = coinprice.textContent; // Definindo o preço
-    modal.querySelector('#modalvariation').innerHTML = coinvariation.innerHTML; // Definindo a variação
-    modal.querySelector('#modalvariation').classList.add(...coinvariation.classList); // Definindo a cor da variação
+    modalCrypto.querySelector('#modalprice').textContent = coinprice.textContent; // Definindo o preço
+    modalCrypto.querySelector('#modalvariation').innerHTML = coinvariation.innerHTML; // Definindo a variação
+    modalCrypto.querySelector('#modalvariation').classList.add(...coinvariation.classList); // Definindo a cor da variação
 
     // Criando o gráfico
     const coinTicker = coinname.replace("/", "-"); // Criando o ticker
@@ -126,4 +126,30 @@ modal.addEventListener('show.bs.modal', async (event) => {
     const daysWeek = getDaysWeek(7); // Obtendo as datas
     const criptoPriceAndDaysList = [criptoCoinPrice, daysWeek]; // Transformando em uma lista
     initChart_criptoView(criptoPriceAndDaysList); // Inicializando o gráfico
+
+    const btnAddCoin = modalCrypto.querySelector('#btnAddCoin'); // Botão de adicionar
+    btnAddCoin.setAttribute('href', `/my-coins/add-coin/${coinname}`);
+});
+
+
+// Modal de adicionar moedas
+const modalAddCoin = document.querySelector('#add-coin-modal');
+
+// Definindo o conteudo do modal
+modalAddCoin.addEventListener('show.bs.modal', async (event) => {
+    const triggerModal = event.relatedTarget; // Elemento que acionou o modal
+
+    const btnModalAddCoin = modalAddCoin.querySelector('.btn-modal-coin'); // Botão de adicionar
+
+    // Definindo o link de exclusão
+    btnModalAddCoin.addEventListener('click', async () => {
+        const ticker = modalAddCoin.querySelector('#ticker').value; // Ticker da moeda
+        const tradingPair = modalAddCoin.querySelector('#trading_pair').value; // Trading Pair da moeda
+
+        // adiciona o link ao botão
+        btnModalAddCoin.setAttribute('href', `/my-coins/add-coin/${ticker}/${tradingPair}`);
+
+        // aciona o botão
+        btnModalAddCoin.click();
+    })    
 });

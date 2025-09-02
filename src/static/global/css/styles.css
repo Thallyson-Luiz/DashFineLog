@@ -1,6 +1,6 @@
 :root {
     --ds-button-color: #0c57d0;
-    --ds-button-color-hover: #094bb6;
+    --ds-button-color-hover: #083f97;
     --ds-button-color-secondary: rgba(255, 255, 255, 0.815);
     --ds-button-color-secondary-hover: #b3bfca;
     --ds-primari-color: rgba(11, 10, 17, 255);
@@ -91,3 +91,38 @@ section.bg-dark {
         margin-top: 2rem;
     }
 }
+
+@keyframes slidefadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-30px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(30px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes slideInTop {
+  from { opacity: 0; transform: translateY(-30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes slideInBottom {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes slideInScale {
+  from { opacity: 0; transform: scale(0.8); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+.slide-in { animation: slidefadeIn 3s cubic-bezier(.2,.9,.2,1) both !important; }
+.slide-in-left { animation: slideInLeft 3s cubic-bezier(.2,.9,.2,1) both !important; }
+.slide-in-right { animation: slideInRight 3s cubic-bezier(.2,.9,.2,1) both !important; }
+.slide-in-top { animation: slideInTop 3s cubic-bezier(.2,.9,.2,1) both !important; }
+.slide-in-bottom { animation: slideInBottom 3s cubic-bezier(.2,.9,.2,1) both !important; }
+.slide-in-scale { animation: slideInScale 3s cubic-bezier(.2,.9,.2,1) both !important; }
+
+
+

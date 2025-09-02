@@ -1,22 +1,96 @@
-{% extends "global/base.html" %}
-{% load static %}
-{% block head %}
-<link rel="stylesheet" href="{% static 'home/css/mycoins_styles.css' %}">
+{% extends "global/base.html" %} {% load static %} {% block head %}
+<link rel="stylesheet" href="{% static 'home/css/mycoins_styles.css' %}" />
 <meta http-equiv="refresh" content="360" />
-{% endblock head %}
+{% endblock head %} {% block content %}
 
-{% block content %}
+<section class="container d-flex flex-column align-items-center justify-content-center g-4">
+    <div class="card slide-in-top">
+        <div class="card-header">
+            <h1 class="text-center my-4">Minhas Moedas</h1>
+            <div class="row mb-3 d-flex flex-column">
+                <button class="btn btn-secondary h-25 w-25 ms-auto d-block button-my-criptos text-nowrap" data-bs-toggle="modal" data-bs-target="#add-coin-modal">Criar</button>
+            </div>
 
-<section class="container d-flex flex-column align-items-center  justify-content-center g-4">
+            {% if error %}
+            <div class="row mb-3 d-flex flex-column">
+                <div class="alert alert-danger" role="alert">
+                    {{ error }}
+                </div>
+            </div>
+            {% endif %}
+        </div>
 
-    <div class="card">
-
+        <div class="card-body">
+            {% if coins %}
+            <ul class="list-group d-flex flex-column gap-4">
+                {% for coin in coins %}
+                <li
+                    class="list-group-item coin-item d-flex align-items-center justify-content-between border-1 rounded-2"
+                    data-bs-toggle="modal"
+                    data-bs-target="#coin-modal"
+                >
+                    <div id="coinname">{{ coin.name }}</div>
+                    <div>
+                        <h2 class="fs-5 mb-1" id="coinprice" >Price: {{ coin.price }}</h2>
+                        {% if coin.variation >= 0 %}
+                        <p class="text-success m-0" id="coinvariation">
+                            ↑ {{coin.variation}}% <small class="text-white">Since last day</small>
+                        </p>
+                        {% else %}
+                        <p class="text-danger m-0" id="coinvariation">
+                            ↓ {{coin.variation}}% <small class="text-white">Since last day</small>
+                        </p>
+                        {% endif %}
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </div>
     </div>
+
+    <div
+        class="modal fade"
+        id="coin-modal"
+        tabindex="-1"
+        aria-labelledby="modal de moedas"
+        aria-hidden="true"
+        role="dialog"
+    >
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title" id="modalLabel"></h2>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="row mb-3">
+                        <h3 class="mb-2" id="modalprice"></h3>
+                        <p id="modalvariation"></p>
+                    </div>
+                    <div class="row d-coinview m-auto p-0">
+                        <canvas id="coinView" class="img-fluid"></canvas>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <a
+                        href=""
+                        id="exclude-coin"
+                        class="btn btn-secondary h-25 w-50 button-my-criptos modal-btn btn-excluir"
+                    >
+                        Excluir
+                </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% include 'home/partials/_modalAddCoin.html' %}
 </section>
 
-{% endblock content %}
-
-{% block scripts %}
+{% endblock content %} {% block scripts %}
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="{% static 'home/js/mycoins_scripts.js' %}" defer></script>
 {% endblock scripts %}
