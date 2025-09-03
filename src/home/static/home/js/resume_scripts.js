@@ -3,6 +3,7 @@
 const resume = document.getElementById("resumepage");
 resume.classList.add("active");
 
+
 // função async para obter os dados de data e preço do dolar
 // para o gráfico dolarview
 async function get_data_week_coin(url, days = 6) {
@@ -26,15 +27,15 @@ let dolarChart = null; // gráfico dolarview
 // função async para inicializar o gráfico
 async function initChart_DolarView(requestDolarApi) {
     let [dolar_prices, labels_var] = requestDolarApi; // Obtendo dados do backend
-
+    
     // verificando se a api esta ativa
     if (labels_var == null) labels_var = ["seg", "ter", "qua", "qui", "sex", "sab"];
     if (dolar_prices == null) dolar_prices = [0, 0, 0, 0, 0, 0];
-
+    
     // revertendo os arrays
     dolar_prices.reverse();
     labels_var.reverse();
-
+    
     // Criando o gráfico
     if (!dolarChart) {
         dolarChart = new Chart(DOLAR, {
@@ -85,15 +86,15 @@ let bitcoinChart = null; // gráfico bitcoinview
 
 async function initChart_BitcoinView(requestBitcoinApi) {
     let [bitcoin_prices, days_week] = requestBitcoinApi; // Obtendo dados do backend
-
+    
     // verificando se a api esta ativa
     if (days_week == null) days_week = ["seg", "ter", "qua", "qui"];
     if (bitcoin_prices == null) bitcoin_prices = [0, 0, 0, 0, 0];
-
+    
     // revertendo os arrays
     bitcoin_prices.reverse();
     days_week.reverse();
-
+    
     // Criando o gráfico
     if (!bitcoinChart) {
         bitcoinChart = new Chart(BITCOIN, {
@@ -161,19 +162,19 @@ let inflacaoChart = null;
 // Criando o gráfico
 async function initChart_InflacaoView(requestIpcaApi, requestInpcApi) {
     let [ipca_avarage, months] = requestIpcaApi; // Obtendo dados backend do ipca
-
+    
     let [inpc_avarage] = requestInpcApi; // Obtendo dados backend do inpc
-
+    
     // verificando se a api esta ativa
     if (ipca_avarage == null) ipca_avarage = [0, 0, 0, 0, 0, 0];
     if (inpc_avarage == null) inpc_avarage = [0, 0, 0, 0, 0, 0];
     if (months == null) months = ["abr", "mai", "jun", "jul", "ago", "set"];
-
+    
     // revertendo os arrays
     ipca_avarage.reverse();
     inpc_avarage.reverse();
     months.reverse();
-
+    
     // Criando o gráfico
     if (!inflacaoChart) {
         inflacaoChart = new Chart(INFLACAO, {
@@ -240,14 +241,14 @@ let selicChart = null; // variavel para armazenar o grafico
 
 async function initChart_SelicView(requestSelicApi) {
     let [selic_prices, months] = requestSelicApi; // Obtendo dados do backend
-
+    
     // verificando se a api esta ativa
     if (selic_prices == null) selic_prices = [0, 0, 0, 0];
     if (months == null) months = ["abr", "mai", "jun", "jul"];
-
+    
     // revertendo os arrays
     months.reverse();
-
+    
     // Criando o gráfico
     if (!selicChart) {
         selicChart = new Chart(selicview, {
@@ -311,16 +312,17 @@ async function initChart_SelicView(requestSelicApi) {
 }
 
 // Inicializando os gráficos
+const hostGrafics = 'http://127.0.0.1:8000'
 
 async function initCharts() {
     try {
-
+        
         // Obtendo os dados do backend
-        const requestSelicApi = await get_data_week_coin("http://127.0.0.1:8000/api/get/selic/months/", 4);
-        const requestIpcaApi = await get_data_week_coin("http://127.0.0.1:8000/api/get/ipca/months/", 6);
-        const requestInpcApi = await get_data_week_coin("http://127.0.0.1:8000/api/get/inpc/months/", 6);
-        const requestBitcoinApi = await get_data_week_coin("http://127.0.0.1:8000/api/get/bitcoin/days/", 5);
-        const requestDolarApi = await get_data_week_coin("http://127.0.0.1:8000/api/get/dolar/days/");
+        const requestSelicApi = await get_data_week_coin(`${hostGrafics}/api/get/selic/months/`, 4);
+        const requestIpcaApi = await get_data_week_coin(`${hostGrafics}/api/get/ipca/months/`, 6);
+        const requestInpcApi = await get_data_week_coin(`${hostGrafics}/api/get/inpc/months/`, 6);
+        const requestBitcoinApi = await get_data_week_coin(`${hostGrafics}/api/get/bitcoin/days/`, 5);
+        const requestDolarApi = await get_data_week_coin(`${hostGrafics}/api/get/dolar/days/`, 4);
         
         // Iniciando os gráficos
         initChart_InflacaoView(requestIpcaApi, requestInpcApi);
@@ -330,7 +332,7 @@ async function initCharts() {
     } catch (error) {
         alert("Ocorreu um erro ao carregar os gráficos. Por favor, tente novamente mais tarde.");
     }
-
+    
     // mostra a pagina
     loader.style.display = 'none'; // esconde loader
     document.querySelector('.finelog-title').classList.add('slide-in-left');
