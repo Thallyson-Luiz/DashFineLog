@@ -26,7 +26,7 @@ def my_coins(request: HttpRequest):
     # verifica se houve erros
     error = '' 
     if request.GET.get('error') == '1':
-        error = 'Erro ao criar moeda, verifique se o ticker e trading pair estao corretos ou tente novamente mais tarde'
+        error = 'Erro ao criar moeda, verifique se o ticker e trading pair são aceitos pelo awesome e tente novamente'
 
     # contexto para enviar os dados para o template
     context = {

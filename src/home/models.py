@@ -1,6 +1,8 @@
 from django.db import models
 from utils.resize import resize_image_django
+from modules.coins import get_coin_today
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 
 # Modelo de criptomoeda
 class CriptoMoeda(models.Model):
@@ -65,10 +67,24 @@ class Coin(models.Model):
     def __str__(self):
         return f'{self.ticker} - {self.trading_pair} - {self.User_person}'
     
+    # Validando ticker e trading pair
+    def clean(self) -> None:
+        if not (self.ticker and self.trading_pair):
+            raise ValidationError("Ticker e Trading Pair devem ser preenchidos")
+        
+        coin_verify = get_coin_today(self.ticker, self.trading_pair)
+
+        if not coin_verify:
+            raise ValidationError("Ticker e Trading Pair não aceitos")
+            
+        return super().clean()
+    
     def save(self, *args, **kwargs):
         # Convertendo ticker para maiusculo
         if self.ticker:
             self.ticker = self.ticker.upper()
+
+        self.full_clean()
 
         # Salvando
         super().save(*args, **kwargs)

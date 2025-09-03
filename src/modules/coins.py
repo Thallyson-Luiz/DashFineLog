@@ -48,6 +48,45 @@ def get_coins_today(tickers_pars: list[str]) -> list[dict]:
         return [JSON_RESONSE[f"{ticker.replace('-', '')}"] for ticker in tickers_pars]
     except :
         return list() # Em caso de erro, retorna um dicionário vazio
+    
+def get_coin_today(ticker: str, trading_pair: str) -> dict:
+    """
+    Função para extrair a cotação de uma moeda no dia de hoje pelo AwesomeAPI.
+
+    Parâmetros:
+        ticker (str): Sigla da moeda.
+        trading_pair (str): Par de negociação da moeda.
+    
+    Retorna:
+        dict com a cotação da moeda hoje.
+
+    Exemplo:
+        get_coin_today("BTC", "BRL")
+
+    Em caso de erro, retorna um dicionário vazio.
+    """
+
+    # URL para obter os dados do AwesomeAPI
+    try:
+        URL = f"https://economia.awesomeapi.com.br/json/last/{ticker}-{trading_pair}"
+    except:
+        return dict()
+
+    # Faz a requisição
+    response = requests.get(URL)
+
+    # Verifica se houve erro na requisição
+    if response.status_code != 200:
+        return dict()
+    
+    # Retorna o resultado em JSON
+    response = response.json()
+
+    # Retorna os campos da cotação
+    try:
+        return response[f'{ticker}{trading_pair}']
+    except:
+        return dict() # Em caso de erro, retorna um dicionário vazio
 
 
 
