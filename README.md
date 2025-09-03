@@ -3,12 +3,13 @@
 ## Introdução
 
 💲 Site que oferece um dashboard sobre finanças e situações econômicas de diferentes moedas, consultas e receitas econômicas
-    ❗ ATENÇÃO: O site ainda esta em desenvolvimento e não encontra-se pronto para uso. pois assim como ele, estou em constante aprendizado!
+    ❗ ATENÇÃO: Este projeto foi desenvolvido para ser executado em Docker, seu funcionamento fora do Docker pode não ser garantido!
 
 
 ## Instalação
 
 Use o gerenciador de pacotes [pip](https://pip.pypa.io/en/stable/) para instalar as dependencias.
+(Caso não queira usar docker)
 
 ```bash
 pip install -r src/requirements.txt
