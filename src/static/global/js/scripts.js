@@ -13,3 +13,7 @@ window.addEventListener('resize', () => {
     espacamento.style.width = larg + 'px';
     espacamento.style.height = altura + 'px';
 });
+
+window.addEventListener('load', () => {
+    document.body.style.overflowY = 'auto';
+});

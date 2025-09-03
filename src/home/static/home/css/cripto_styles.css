@@ -8,16 +8,16 @@
 }
 
 .card-hover {
-    transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out !important;
 }
 
 .card-hover:hover {
-    transform: scale(1.05);
-    cursor: pointer;
+    transform: scale(1.05) !important;
+    cursor: pointer !important;
 }
 
 .card-hover:hover .card {
-    box-shadow: 0 0 25px rgba(85, 106, 128, 0.14);
+    box-shadow: 0 0 25px rgba(85, 106, 128, 0.14) !important;
 }
 
 .border-start {
