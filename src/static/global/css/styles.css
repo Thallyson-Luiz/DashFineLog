@@ -1,8 +1,3 @@
-html, body {
-    overflow-y: hidden; 
-}
-
-
 :root {
     --ds-button-color: #0c57d0;
     --ds-button-color-hover: #083f97;

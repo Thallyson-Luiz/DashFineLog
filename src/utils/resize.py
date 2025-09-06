@@ -21,28 +21,28 @@ def resize_image_django(image_django, new_width=800, optimize=True, quality=60):
     '''
 
 
-    # Abre a imagem e obtem suas dimensões
-    image_pillow = Image.open(image_django.file)
+    # Abre a imagem direto do campo, sem .file
+    image_django.open()  # garante que está aberto
+    image_pillow = Image.open(image_django)
+
     original_width, original_height = image_pillow.size
 
-    # Para caso a imagem seja menor que a largura desejada
+    # Se a largura já é menor ou igual, não faz nada
     if original_width <= new_width:
-        image_pillow.close()
-        return image_pillow
+        return
 
-    # Redimensionando a imagem
-    new_height = round(new_width * original_height / original_width) # Calculando a nova altura
-    new_image = image_pillow.resize((new_width, new_height), Image.Resampling.LANCZOS) # Redimensionando a imagem
+    # Calcula nova altura proporcional
+    new_height = round(new_width * original_height / original_width)
+    new_image = image_pillow.resize((new_width, new_height), Image.Resampling.LANCZOS)
 
+    # Salva em memória
+    image_io = BytesIO()
+    new_image.save(image_io, format=image_pillow.format, optimize=optimize, quality=quality)
+    image_io.seek(0)
 
-    image_io = BytesIO() # Criando um buffer para salvar a imagem
-    new_image.save(image_io, format=image_pillow.format, optimize=optimize, quality=quality) # Salvando a imagem
-
-    # Atualizando a imagem no Django
+    # Substitui o conteúdo do campo de imagem
     image_django.save(
         image_django.name,
-        ContentFile(image_io.getvalue()),
-        save=False  
+        ContentFile(image_io.read()),
+        save=False  # não salva o modelo ainda
     )
-
-    return new_image

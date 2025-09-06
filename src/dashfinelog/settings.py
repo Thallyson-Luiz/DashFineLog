@@ -30,8 +30,10 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'CHANGE-ME').strip()
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True if os.getenv('DEBUG', 'False').strip() == 'True' else False
 
-ALLOWED_HOSTS = [h.strip() for h in os.getenv('ALLOWED_HOSTS', '*').split(',')]
-
+if DEBUG:
+    ALLOWED_HOSTS = [h.strip() for h in os.getenv('ALLOWED_HOSTS', '*').split(',')]
+else:
+    ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -158,9 +160,12 @@ STATICFILES_DIRS = [
 MEDIA_URL = 'media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
-CORS_ALLOWED_ORIGINS = [
-    f"https://{os.getenv('DOMAIN_host', '127.0.0.1').strip()}",
-]
+if not DEBUG:
+    CORS_ALLOWED_ORIGINS = [
+        f"https://{os.getenv('DOMAIN_host', '127.0.0.1').strip()}",
+    ]
+else:
+    CORS_ALLOW_ALL_ORIGINS = True
 
 
 
