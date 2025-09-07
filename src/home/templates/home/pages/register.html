@@ -77,7 +77,7 @@
                         <span>OU</span>
                     </div>
                     
-                    <button class="btn btn-outline w-100 mb-3 slide-in-scale">
+                    <button class="btn btn-outline w-100 mb-3 slide-in-scale" id="google-login">
                         <i class="fab fa-google me-2"></i>
                         Registrar com Google
                     </button>
@@ -92,5 +92,6 @@
 {% endblock content %}
         
 {% block scripts %}
+<script src="https://accounts.google.com/gsi/client" async defer></script>
 <script src="{% static 'home/js/register_scripts.js' %}" defer></script>
 {% endblock scripts %}

@@ -1,8 +1,11 @@
-from django.shortcuts import render, redirect
-from django.http import HttpRequest
-from django.contrib.auth import login, authenticate, logout
+import json
+from django.http import HttpRequest, JsonResponse
 from django.contrib.auth.forms import UserCreationForm
-
+from django.contrib.auth.models import User
+from django.shortcuts import render, redirect
+from django.contrib.auth import login, authenticate, logout
+from google.oauth2 import id_token
+from google.auth.transport import requests as google_requests
 
 def login_view(request: HttpRequest):
 
@@ -84,5 +87,34 @@ def register_view(request: HttpRequest):
 
     # se nao for post redireciona para o template
     return render(request, 'home/pages/register.html')
+
+def callback_google(request: HttpRequest):
+    if not (request.method == 'POST'):
+        return JsonResponse({'error': "Metodo nao permitido"}, status=405)
+    
+    try:
+        body = json.loads(request.body)
+        token = body.get('token')
+    
+        if not token:
+            return JsonResponse({'error': "Token nao encontrado"}, status=400)
+        
+        # valida o token do google
+        id_info = id_token.verify_oauth2_token(token, google_requests.Request(), '1011975736026-t18s4p91b8hbl12t78mu445nlblbqevi.apps.googleusercontent.com')
+
+        #pegando as informações do usuario
+        email = id_info.get('email')
+        name = id_info.get('name')
+
+        # criando o usuario
+        user, created = User.objects.get_or_create(email=email, defaults={'username': email.split('@')[0],'first_name': name.strip()})
+
+        # logando o usuario
+        login(request, user)
+
+    except ValueError:
+        return JsonResponse({'error': "Token invalido"}, status=400)
+
+    return redirect('home:resume')
 
 

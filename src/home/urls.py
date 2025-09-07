@@ -16,4 +16,5 @@ urlpatterns = [
     path('perfil/register/', views.register_view, name='register'),
     path('perfil/logout/', views.logout_view, name='logout'),
     path('perfil/exclude/', views.exclude_user, name='exclude'),
+    path('perfil/google/callback', views.callback_google, name='google-callback'),
 ]

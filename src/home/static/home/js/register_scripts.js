@@ -50,3 +50,44 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
+
+let client;
+const client_id_google = "1011975736026-t18s4p91b8hbl12t78mu445nlblbqevi.apps.googleusercontent.com";
+
+window.onload = function () {
+    client = google.accounts.oauth2.initTokenClient({
+        client_id: client_id_google,
+        scope: "email profile openid",
+        callback: (response) => {
+            console.log("Token do Google:", response.access_token);
+
+            fetch("http://127.0.0.1:8000/perfil/google/callback", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ token: response.access_token }),
+            })
+                .then((res) => {
+                    if (!res.ok) {
+                        // Lança erro para cair no catch
+                        return res.json().then((err) => {
+                            throw new Error(err.detail || "Erro no backend");
+                        });
+                    }
+                    return res.json();
+                })
+                .then((data) => {
+                    console.log("Usuário autenticado:", data);
+                    alert("Usuário autenticado com sucesso!");
+                })
+                .catch((error) => {
+                    console.error("Falha na autenticação:", error.message);
+                    alert("Erro ao autenticar com Google. Tente novamente.");
+                });
+        },
+    });
+
+    document.getElementById("google-login").addEventListener("click", () => {
+        client.requestAccessToken();
+        alert("Atenção: O processo de autenticação ainda está em analise pelo google, por favor, use a autenticação normal do site.");
+    });
+};
