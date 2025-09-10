@@ -68,6 +68,10 @@
     </div>
 </div>
 {% endblock content %} {% block scripts %}
+<script>
+    window.API_BASE_URL = '{{ API_BASE_URL }}';
+    window.DOMAIN_HOST = '{{ DOMAIN_HOST }}';
+</script>
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <script src="{% static 'home/js/login_scripts.js' %}" defer></script>
 {% endblock scripts %}

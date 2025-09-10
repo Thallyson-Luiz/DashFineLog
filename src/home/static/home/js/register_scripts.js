@@ -52,7 +52,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 let client;
-const client_id_google = "1011975736026-t18s4p91b8hbl12t78mu445nlblbqevi.apps.googleusercontent.com";
+const client_id_google = "SEU_CLIENT_ID.apps.googleusercontent.com";
 
 window.onload = function () {
     client = google.accounts.oauth2.initTokenClient({
@@ -61,7 +61,7 @@ window.onload = function () {
         callback: (response) => {
             console.log("Token do Google:", response.access_token);
 
-            fetch("http://127.0.0.1:8000/perfil/google/callback", {
+            fetch(`${window.API_BASE_URL || 'http://127.0.0.1:8000'}/perfil/google/callback`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ token: response.access_token }),
@@ -88,6 +88,6 @@ window.onload = function () {
 
     document.getElementById("google-login").addEventListener("click", () => {
         client.requestAccessToken();
-        alert("Atenção: O processo de autenticação ainda está em analise pelo google, por favor, use a autenticação normal do site.");
+        alert("Atenção: O processo de autenticação é apenas um exemplo, este site tem o intuito institucional e não visa a produção em grande escala, por favor, use a autenticação normal do site.");
     });
 };

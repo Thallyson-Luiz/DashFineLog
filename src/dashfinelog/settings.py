@@ -84,6 +84,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'home.context_processors.domain_context',
             ],
         },
     },
@@ -162,7 +163,7 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 if not DEBUG:
     CORS_ALLOWED_ORIGINS = [
-        f"https://{os.getenv('DOMAIN_host', '127.0.0.1').strip()}",
+        f"https://{os.getenv('DOMAIN_HOST', '127.0.0.1').strip()}",
     ]
 else:
     CORS_ALLOW_ALL_ORIGINS = True

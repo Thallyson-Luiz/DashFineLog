@@ -76,6 +76,9 @@ class Coin(models.Model):
 
         if not coin_verify:
             raise ValidationError("Ticker e Trading Pair não aceitos")
+
+        if not self.User_person:
+            raise ValidationError("User deve ser preenchido")
             
         return super().clean()
     
