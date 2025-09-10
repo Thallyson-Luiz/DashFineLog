@@ -312,7 +312,7 @@ async function initChart_SelicView(requestSelicApi) {
 }
 
 // Inicializando os gráficos
-const hostGrafics = window.API_BASE_URL || 'http://127.0.0.1:8000'
+const hostGrafics = window.API_BASE_URL || 'https://127.0.0.1:8000'
 
 async function initCharts() {
     try {
